@@ -1,0 +1,86 @@
+[
+  {
+    "id": 1,
+    "name": "Enterprise Software License",
+    "stage": "Proposal",
+    "amount": 50000,
+    "accountName": "TechCorp Solutions"
+  },
+  {
+    "id": 2,
+    "name": "Cloud Migration Project",
+    "stage": "Negotiation",
+    "amount": 75000,
+    "accountName": "InnovateLabs"
+  },
+  {
+    "id": 3,
+    "name": "Data Analytics Platform",
+    "stage": "Qualification",
+    "amount": 25000,
+    "accountName": "DataFlow Inc"
+  },
+  {
+    "id": 4,
+    "name": "Security Infrastructure Upgrade",
+    "stage": "Closed Won",
+    "amount": 120000,
+    "accountName": "CloudTech Systems"
+  },
+  {
+    "id": 5,
+    "name": "Mobile App Development",
+    "stage": "Discovery",
+    "amount": null,
+    "accountName": "StartupXYZ"
+  },
+  {
+    "id": 6,
+    "name": "ERP System Implementation",
+    "stage": "Proposal",
+    "amount": 200000,
+    "accountName": "Enterprise Solutions"
+  },
+  {
+    "id": 7,
+    "name": "AI/ML Consulting Services",
+    "stage": "Qualification",
+    "amount": 45000,
+    "accountName": "FinTech Innovations"
+  },
+  {
+    "id": 8,
+    "name": "Healthcare Data Platform",
+    "stage": "Negotiation",
+    "amount": 85000,
+    "accountName": "HealthTech Pro"
+  },
+  {
+    "id": 9,
+    "name": "E-commerce Integration",
+    "stage": "Discovery",
+    "amount": 15000,
+    "accountName": "RetailMax"
+  },
+  {
+    "id": 10,
+    "name": "Green Energy Monitoring System",
+    "stage": "Closed Lost",
+    "amount": 60000,
+    "accountName": "GreenEnergy Corp"
+  },
+  {
+    "id": 11,
+    "name": "Customer Support Platform",
+    "stage": "Proposal",
+    "amount": 30000,
+    "accountName": "ServiceFirst Inc"
+  },
+  {
+    "id": 12,
+    "name": "Blockchain Integration",
+    "stage": "Qualification",
+    "amount": null,
+    "accountName": "CryptoVault Ltd"
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "name": "John Smith",
+    "company": "TechCorp Solutions",
+    "email": "john.smith@techcorp.com",
+    "source": "Website",
+    "score": 85,
+    "status": "New"
+  },
+  {
+    "id": 2,
+    "name": "Sarah Johnson",
+    "company": "InnovateLabs",
+    "email": "sarah.j@innovatelabs.com",
+    "source": "Referral",
+    "score": 92,
+    "status": "Contacted"
+  },
+  {
+    "id": 3,
+    "name": "Michael Chen",
+    "company": "DataFlow Inc",
+    "email": "m.chen@dataflow.com",
+    "source": "LinkedIn",
+    "score": 78,
+    "status": "New"
+  },
+  {
+    "id": 4,
+    "name": "Emily Rodriguez",
+    "company": "CloudTech Systems",
+    "email": "emily.r@cloudtech.com",
+    "source": "Trade Show",
+    "score": 88,
+    "status": "Qualified"
+  },
+  {
+    "id": 5,
+    "name": "David Wilson",
+    "company": "StartupXYZ",
+    "email": "david@startupxyz.com",
+    "source": "Website",
+    "score": 65,
+    "status": "New"
+  },
+  {
+    "id": 6,
+    "name": "Lisa Thompson",
+    "company": "Enterprise Solutions",
+    "email": "lisa.thompson@enterprise.com",
+    "source": "Cold Call",
+    "score": 95,
+    "status": "Contacted"
+  },
+  {
+    "id": 7,
+    "name": "Robert Brown",
+    "company": "FinTech Innovations",
+    "email": "robert.brown@fintech.com",
+    "source": "Referral",
+    "score": 82,
+    "status": "New"
+  },
+  {
+    "id": 8,
+    "name": "Jennifer Davis",
+    "company": "HealthTech Pro",
+    "email": "j.davis@healthtech.com",
+    "source": "Website",
+    "score": 90,
+    "status": "Qualified"
+  },
+  {
+    "id": 9,
+    "name": "Alex Martinez",
+    "company": "RetailMax",
+    "email": "alex.martinez@retailmax.com",
+    "source": "LinkedIn",
+    "score": 73,
+    "status": "New"
+  },
+  {
+    "id": 10,
+    "name": "Amanda Taylor",
+    "company": "GreenEnergy Corp",
+    "email": "amanda.taylor@greenenergy.com",
+    "source": "Trade Show",
+    "score": 87,
+    "status": "Contacted"
+  }
+]
