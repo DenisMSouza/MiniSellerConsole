@@ -5,6 +5,7 @@ import Layout from "./components/Layout";
 import LeadsPage from "./pages/LeadsPage";
 import OpportunitiesPage from "./pages/OpportunitiesPage";
 import EmptyStateTest from "./components/EmptyStateTest";
+import { Toaster } from "./components/ui/sonner";
 import "./App.css";
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route path="/test-empty" element={<EmptyStateTest />} />
           </Routes>
         </Layout>
+        <Toaster position="top-right" />
       </Router>
     </SimulationConfigProvider>
   );

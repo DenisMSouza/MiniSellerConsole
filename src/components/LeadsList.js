@@ -8,6 +8,7 @@ import { useOpportunitiesData } from "../hooks/useOpportunitiesData";
 import { useSimulationConfig } from "../contexts/SimulationConfigContext";
 import { useLeadsFiltersStorage } from "../hooks/useFiltersStorage";
 import { getStatusColor, getScoreColor } from "../utils/leadsUtils";
+import { toast } from "sonner";
 
 const LeadsList = () => {
   const [searchTerm, setSearchTerm] = useState(""); // Local state - not persisted
@@ -33,7 +34,7 @@ const LeadsList = () => {
     );
 
   // Use the opportunities data management hook for lead conversion
-  const { addOpportunity } = useOpportunitiesData();
+  const { opportunities, addOpportunity } = useOpportunitiesData();
 
   // Handle loading and error states
   if (loading) {
@@ -146,6 +147,12 @@ const LeadsList = () => {
     // Update leads data in localStorage
     updateLead(updatedLead);
 
+    // Show success toast notification
+    toast.success("Lead Updated Successfully!", {
+      description: `${updatedLead.name}'s information has been saved.`,
+      duration: 3000,
+    });
+
     // Close the drawer after saving
     setIsDrawerOpen(false);
     setSelectedLead(null);
@@ -154,24 +161,36 @@ const LeadsList = () => {
   };
 
   const handleLeadConvert = (lead) => {
-    // Create a new opportunity from the lead
+    // Generate the next sequential ID based on existing opportunities
+    const maxId = Math.max(...opportunities.map((opp) => opp.id), 12); // Start from 12 (highest JSON ID)
+    const nextId = maxId + 1;
+
+    // Create a new opportunity that looks identical to JSON opportunities
     const newOpportunity = {
-      id: `opp-${Date.now()}`, // Generate unique ID
+      id: nextId, // Sequential numeric ID like JSON
       name: `${lead.name} - ${lead.company}`, // Opportunity name
       stage: "Prospecting", // Default stage for new opportunities
-      amount: null, // No amount initially
+      amount: null, // No amount initially (same as some JSON entries)
       accountName: lead.company, // Use company as account name
-      leadId: lead.id, // Reference to original lead
-      convertedAt: new Date().toISOString(), // Conversion timestamp
+      // Store conversion metadata in localStorage but don't show in UI
+      _metadata: {
+        leadId: lead.id,
+        leadName: lead.name, // Preserve original lead name
+        convertedAt: new Date().toISOString(),
+        source: "lead_conversion",
+      },
     };
 
     // Add the new opportunity
     addOpportunity(newOpportunity);
 
-    console.log("Lead converted to opportunity:", newOpportunity);
+    // Show success toast notification
+    toast.success("Lead Converted Successfully!", {
+      description: `${lead.name} from ${lead.company} has been converted to an opportunity.`,
+      duration: 4000,
+    });
 
-    // You could also show a success message here
-    // For now, we'll just log it
+    console.log("Lead converted to opportunity:", newOpportunity);
   };
 
   const columns = [
