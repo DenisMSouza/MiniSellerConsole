@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Pagination from "./Pagination";
 
 const DataTable = ({
   data,
@@ -11,7 +12,41 @@ const DataTable = ({
   emptyMessage = "No data available",
   emptyIcon,
   emptyAction,
+  itemsPerPage = 10,
+  showPagination = true,
 }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPageData, setCurrentPageData] = useState([]);
+
+  // Calculate pagination
+  const totalItems = data?.length || 0;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+
+  // Update current page data when page or data changes
+  useEffect(() => {
+    if (showPagination && data) {
+      const paginatedData = data.slice(startIndex, endIndex);
+      setCurrentPageData(paginatedData);
+    } else {
+      setCurrentPageData(data || []);
+    }
+  }, [data, currentPage, itemsPerPage, showPagination]);
+
+  // Reset to first page when data changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [data]);
+
+  // Handle page change from Pagination component
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  // Use paginated data if pagination is enabled, otherwise use all data
+  const displayData = showPagination ? currentPageData : data;
+
   if (!data || data.length === 0) {
     return (
       <div className="p-6">
@@ -88,7 +123,7 @@ const DataTable = ({
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {data.map((row, rowIndex) => (
+              {displayData.map((row, rowIndex) => (
                 <tr
                   key={row.id || rowIndex}
                   className="hover:bg-gray-50 cursor-pointer transition-colors"
@@ -106,7 +141,16 @@ const DataTable = ({
         </div>
       </div>
 
-      {resultsText && (
+      {/* Pagination */}
+      {showPagination && (
+        <Pagination
+          data={data}
+          itemsPerPage={itemsPerPage}
+          onPageChange={handlePageChange}
+        />
+      )}
+
+      {resultsText && !showPagination && (
         <div className="mt-4 text-sm text-gray-500">{resultsText}</div>
       )}
     </div>

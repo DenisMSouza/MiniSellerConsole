@@ -14,11 +14,12 @@ import {
   validateEmail,
 } from "../utils/leadsUtils";
 
-const LeadDetailsDrawer = ({ lead, isOpen, onClose, onSave }) => {
+const LeadDetailsDrawer = ({ lead, isOpen, onClose, onSave, onConvert }) => {
   const [editedLead, setEditedLead] = useState(lead);
   const [isEditing, setIsEditing] = useState(false);
   const [errors, setErrors] = useState({});
   const [hasChanges, setHasChanges] = useState(false);
+  const [showConvertConfirm, setShowConvertConfirm] = useState(false);
 
   useEffect(() => {
     if (lead) {
@@ -76,6 +77,22 @@ const LeadDetailsDrawer = ({ lead, isOpen, onClose, onSave }) => {
     setIsEditing(false);
     setHasChanges(false);
     setErrors({});
+  };
+
+  const handleConvertLead = () => {
+    if (onConvert) {
+      onConvert(lead);
+      setShowConvertConfirm(false);
+      onClose(); // Close the drawer after conversion
+    }
+  };
+
+  const handleConvertConfirm = () => {
+    setShowConvertConfirm(true);
+  };
+
+  const handleCancelConvert = () => {
+    setShowConvertConfirm(false);
   };
 
   if (!lead) return null;
@@ -252,13 +269,71 @@ const LeadDetailsDrawer = ({ lead, isOpen, onClose, onSave }) => {
                 Actions
               </h3>
               <div className="flex flex-wrap gap-3">
-                <Button size="sm" className="bg-green-600 hover:bg-green-700">
+                <Button
+                  size="sm"
+                  className="bg-green-600 hover:bg-green-700"
+                  onClick={handleConvertConfirm}
+                >
                   Convert Lead
                 </Button>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Convert Lead Confirmation */}
+        {showConvertConfirm && (
+          <div className="border-t bg-yellow-50 p-4">
+            <div className="flex items-start">
+              <div className="flex-shrink-0">
+                <svg
+                  className="h-5 w-5 text-yellow-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 19.5c-.77.833.192 2.5 1.732 2.5z"
+                  />
+                </svg>
+              </div>
+              <div className="ml-3 flex-1">
+                <h4 className="text-sm font-medium text-yellow-800">
+                  Convert Lead to Opportunity
+                </h4>
+                <div className="mt-2 text-sm text-yellow-700">
+                  <p>
+                    Are you sure you want to convert "{lead.name}" from{" "}
+                    {lead.company} into an opportunity?
+                  </p>
+                  <p className="mt-1">
+                    This will create a new opportunity and the lead will remain
+                    in your leads list.
+                  </p>
+                </div>
+                <div className="mt-4 flex gap-3">
+                  <Button
+                    size="sm"
+                    className="bg-green-600 hover:bg-green-700"
+                    onClick={handleConvertLead}
+                  >
+                    Yes, Convert Lead
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={handleCancelConvert}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         <DrawerFooter className="border-t">
           <div className="flex justify-between items-center">

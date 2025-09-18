@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import leadsData from "../data/leads.json";
+import React, { useState } from "react";
 import DataTable from "./DataTable";
 import Filter from "./Filter";
 import LeadDetailsDrawer from "./LeadDetailsDrawer";
 import LoadingSpinner from "./LoadingSpinner";
-import useDataLoader from "../hooks/useDataLoader";
+import { useLeadsData } from "../hooks/useLeadsData";
+import { useOpportunitiesData } from "../hooks/useOpportunitiesData";
 import { useSimulationConfig } from "../contexts/SimulationConfigContext";
 import { useLeadsFiltersStorage } from "../hooks/useFiltersStorage";
 import { getStatusColor, getScoreColor } from "../utils/leadsUtils";
@@ -14,10 +14,6 @@ const LeadsList = () => {
   const [selectedLead, setSelectedLead] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Local state for leads data (for immediate updates)
-  const [localLeads, setLocalLeads] = useState([]);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
-
   // Get simulation config from context
   const { config } = useSimulationConfig();
 
@@ -25,39 +21,19 @@ const LeadsList = () => {
   const { filters, updateFilters } = useLeadsFiltersStorage();
   const { statusFilter, sortBy } = filters;
 
-  // Use the data loader hook with configurable delay and error simulation
-  const {
-    data: serverLeads,
-    loading,
-    error,
-    refetch,
-  } = useDataLoader(
-    () => leadsData,
-    config.leadsDelay,
-    [config.simulateErrors, config.errorChance],
-    {
-      simulateError: config.simulateErrors,
-      errorChance: config.errorChance,
-    }
-  );
+  // Use the leads data management hook
+  const { leads, loading, error, updateLead, resetData, refreshData } =
+    useLeadsData(
+      config.leadsDelay,
+      [config.simulateErrors, config.errorChance],
+      {
+        simulateError: config.simulateErrors,
+        errorChance: config.errorChance,
+      }
+    );
 
-  // Sync server data with local state
-  useEffect(() => {
-    if (serverLeads && isInitialLoad) {
-      setLocalLeads(serverLeads);
-      setIsInitialLoad(false);
-    }
-  }, [serverLeads, isInitialLoad]);
-
-  // Use local leads for display (allows immediate updates)
-  const leads = localLeads;
-
-  const handleDataRefresh = () => {
-    // Reset local state and trigger a fresh data load
-    setIsInitialLoad(true);
-    setLocalLeads([]);
-    refetch();
-  };
+  // Use the opportunities data management hook for lead conversion
+  const { addOpportunity } = useOpportunitiesData();
 
   // Handle loading and error states
   if (loading) {
@@ -115,7 +91,7 @@ const LeadsList = () => {
             </h3>
             <p className="text-gray-500 mb-6">{error}</p>
             <button
-              onClick={handleDataRefresh}
+              onClick={refreshData}
               className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               <svg
@@ -167,17 +143,35 @@ const LeadsList = () => {
   };
 
   const handleLeadSave = (updatedLead) => {
-    // Update local state immediately for instant UI feedback
-    setLocalLeads((prevLeads) =>
-      prevLeads.map((lead) => (lead.id === updatedLead.id ? updatedLead : lead))
-    );
+    // Update leads data in localStorage
+    updateLead(updatedLead);
 
-    // Update the selected lead in the drawer
-    setSelectedLead(updatedLead);
+    // Close the drawer after saving
+    setIsDrawerOpen(false);
+    setSelectedLead(null);
 
-    // TODO: In a real app, this would also make an API call to persist the changes
-    // For now, we just update the local state for immediate feedback
-    console.log("Lead updated locally:", updatedLead);
+    console.log("Lead updated and saved to localStorage:", updatedLead);
+  };
+
+  const handleLeadConvert = (lead) => {
+    // Create a new opportunity from the lead
+    const newOpportunity = {
+      id: `opp-${Date.now()}`, // Generate unique ID
+      name: `${lead.name} - ${lead.company}`, // Opportunity name
+      stage: "Prospecting", // Default stage for new opportunities
+      amount: null, // No amount initially
+      accountName: lead.company, // Use company as account name
+      leadId: lead.id, // Reference to original lead
+      convertedAt: new Date().toISOString(), // Conversion timestamp
+    };
+
+    // Add the new opportunity
+    addOpportunity(newOpportunity);
+
+    console.log("Lead converted to opportunity:", newOpportunity);
+
+    // You could also show a success message here
+    // For now, we'll just log it
   };
 
   const columns = [
@@ -254,26 +248,6 @@ const LeadsList = () => {
           </span>
         )}
       </span>
-      <button
-        onClick={handleDataRefresh}
-        className="inline-flex items-center px-3 py-1 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        title="Refresh data"
-      >
-        <svg
-          className="h-4 w-4 mr-1"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-          />
-        </svg>
-        Refresh
-      </button>
     </div>
   );
 
@@ -343,6 +317,7 @@ const LeadsList = () => {
         isOpen={isDrawerOpen}
         onClose={handleDrawerClose}
         onSave={handleLeadSave}
+        onConvert={handleLeadConvert}
       />
     </>
   );

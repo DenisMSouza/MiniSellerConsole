@@ -4,6 +4,7 @@ import {
   STORAGE_KEYS,
   DEFAULT_SIMULATION_CONFIG,
   migrationUtils,
+  storageUtils,
 } from "../utils/storageUtils";
 
 const SimulationConfigContext = createContext();
@@ -47,6 +48,11 @@ export const SimulationConfigProvider = ({ children }) => {
     removeStoredConfig();
   };
 
+  const resetAllData = () => {
+    // Clear only app data from localStorage, preserve simulation config
+    storageUtils.clearAppData();
+  };
+
   return (
     <SimulationConfigContext.Provider
       value={{
@@ -54,6 +60,7 @@ export const SimulationConfigProvider = ({ children }) => {
         updateConfig,
         resetConfig,
         clearConfig,
+        resetAllData,
         // Additional utilities
         isDefault:
           JSON.stringify(config) === JSON.stringify(DEFAULT_SIMULATION_CONFIG),

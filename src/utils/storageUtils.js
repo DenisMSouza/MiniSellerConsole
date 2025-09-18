@@ -6,8 +6,8 @@
 export const STORAGE_KEYS = {
   SIMULATION_CONFIG: "mini-seller-console-simulation-config",
   LEADS_FILTERS: "mini-seller-console-leads-filters",
-  OPPORTUNITIES_FILTERS: "mini-seller-console-opportunities-filters",
-  USER_PREFERENCES: "mini-seller-console-user-preferences",
+  LEADS_DATA: "mini-seller-console-leads-data",
+  OPPORTUNITIES_DATA: "mini-seller-console-opportunities-data",
 };
 
 // Default configurations
@@ -21,19 +21,6 @@ export const DEFAULT_SIMULATION_CONFIG = {
 export const DEFAULT_LEADS_FILTERS = {
   statusFilter: "",
   sortBy: "",
-};
-
-export const DEFAULT_OPPORTUNITIES_FILTERS = {
-  searchTerm: "",
-  stageFilter: "",
-  sortBy: "",
-};
-
-export const DEFAULT_USER_PREFERENCES = {
-  theme: "light",
-  itemsPerPage: 25,
-  autoRefresh: false,
-  refreshInterval: 30000, // 30 seconds
 };
 
 /**
@@ -103,6 +90,24 @@ export const storageUtils = {
     }
   },
 
+  clearAppData: () => {
+    try {
+      // Clear only data-related keys, preserve config
+      const dataKeys = [
+        STORAGE_KEYS.LEADS_DATA,
+        STORAGE_KEYS.OPPORTUNITIES_DATA,
+        STORAGE_KEYS.LEADS_FILTERS,
+      ];
+      dataKeys.forEach((key) => {
+        window.localStorage.removeItem(key);
+      });
+      return true;
+    } catch (error) {
+      console.warn("Error clearing app data:", error);
+      return false;
+    }
+  },
+
   /**
    * Get all stored keys for this app
    * @returns {string[]} - Array of stored keys
@@ -149,53 +154,6 @@ export const storageUtils = {
       return null;
     }
   },
-};
-
-/**
- * Specific storage functions for different data types
- */
-export const simulationConfigStorage = {
-  get: () =>
-    storageUtils.get(STORAGE_KEYS.SIMULATION_CONFIG, DEFAULT_SIMULATION_CONFIG),
-  set: (config) => storageUtils.set(STORAGE_KEYS.SIMULATION_CONFIG, config),
-  remove: () => storageUtils.remove(STORAGE_KEYS.SIMULATION_CONFIG),
-  reset: () =>
-    storageUtils.set(STORAGE_KEYS.SIMULATION_CONFIG, DEFAULT_SIMULATION_CONFIG),
-};
-
-export const leadsFiltersStorage = {
-  get: () =>
-    storageUtils.get(STORAGE_KEYS.LEADS_FILTERS, DEFAULT_LEADS_FILTERS),
-  set: (filters) => storageUtils.set(STORAGE_KEYS.LEADS_FILTERS, filters),
-  remove: () => storageUtils.remove(STORAGE_KEYS.LEADS_FILTERS),
-  reset: () =>
-    storageUtils.set(STORAGE_KEYS.LEADS_FILTERS, DEFAULT_LEADS_FILTERS),
-};
-
-export const opportunitiesFiltersStorage = {
-  get: () =>
-    storageUtils.get(
-      STORAGE_KEYS.OPPORTUNITIES_FILTERS,
-      DEFAULT_OPPORTUNITIES_FILTERS
-    ),
-  set: (filters) =>
-    storageUtils.set(STORAGE_KEYS.OPPORTUNITIES_FILTERS, filters),
-  remove: () => storageUtils.remove(STORAGE_KEYS.OPPORTUNITIES_FILTERS),
-  reset: () =>
-    storageUtils.set(
-      STORAGE_KEYS.OPPORTUNITIES_FILTERS,
-      DEFAULT_OPPORTUNITIES_FILTERS
-    ),
-};
-
-export const userPreferencesStorage = {
-  get: () =>
-    storageUtils.get(STORAGE_KEYS.USER_PREFERENCES, DEFAULT_USER_PREFERENCES),
-  set: (preferences) =>
-    storageUtils.set(STORAGE_KEYS.USER_PREFERENCES, preferences),
-  remove: () => storageUtils.remove(STORAGE_KEYS.USER_PREFERENCES),
-  reset: () =>
-    storageUtils.set(STORAGE_KEYS.USER_PREFERENCES, DEFAULT_USER_PREFERENCES),
 };
 
 /**

@@ -103,43 +103,4 @@ export const useLocalStorageJSON = (key, initialValue) => {
   });
 };
 
-/**
- * Hook for managing localStorage with string values (no serialization)
- * @param {string} key - The localStorage key
- * @param {string} initialValue - The initial value if nothing is stored
- * @returns {[value, setValue, removeValue]} - [currentValue, setterFunction, removeFunction]
- */
-export const useLocalStorageString = (key, initialValue = "") => {
-  return useLocalStorage(key, initialValue, {
-    serializer: (value) => value,
-    deserializer: (value) => value,
-  });
-};
-
-/**
- * Hook for managing localStorage with number values
- * @param {string} key - The localStorage key
- * @param {number} initialValue - The initial value if nothing is stored
- * @returns {[value, setValue, removeValue]} - [currentValue, setterFunction, removeFunction]
- */
-export const useLocalStorageNumber = (key, initialValue = 0) => {
-  return useLocalStorage(key, initialValue, {
-    serializer: (value) => value.toString(),
-    deserializer: (value) => parseFloat(value) || initialValue,
-  });
-};
-
-/**
- * Hook for managing localStorage with boolean values
- * @param {string} key - The localStorage key
- * @param {boolean} initialValue - The initial value if nothing is stored
- * @returns {[value, setValue, removeValue]} - [currentValue, setterFunction, removeFunction]
- */
-export const useLocalStorageBoolean = (key, initialValue = false) => {
-  return useLocalStorage(key, initialValue, {
-    serializer: (value) => value.toString(),
-    deserializer: (value) => value === "true",
-  });
-};
-
 export default useLocalStorage;
