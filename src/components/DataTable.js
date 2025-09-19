@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import Pagination from "./Pagination";
+import React from "react";
 
 const DataTable = ({
   data,
@@ -12,40 +11,9 @@ const DataTable = ({
   emptyMessage = "No data available",
   emptyIcon,
   emptyAction,
-  itemsPerPage = 10,
-  showPagination = true,
 }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [currentPageData, setCurrentPageData] = useState([]);
-
-  // Calculate pagination
-  const totalItems = data?.length || 0;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-
-  // Update current page data when page or data changes
-  useEffect(() => {
-    if (showPagination && data) {
-      const paginatedData = data.slice(startIndex, endIndex);
-      setCurrentPageData(paginatedData);
-    } else {
-      setCurrentPageData(data || []);
-    }
-  }, [data, currentPage, itemsPerPage, showPagination]);
-
-  // Reset to first page when data changes
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [data]);
-
-  // Handle page change from Pagination component
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-  };
-
-  // Use paginated data if pagination is enabled, otherwise use all data
-  const displayData = showPagination ? currentPageData : data;
+  // Use data directly since pagination is now handled by parent
+  const displayData = data || [];
 
   if (!data || data.length === 0) {
     return (
@@ -99,7 +67,7 @@ const DataTable = ({
   }
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8">
+    <div>
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">{title}</h1>
         <p className="text-gray-600">{subtitle}</p>
@@ -141,16 +109,7 @@ const DataTable = ({
         </div>
       </div>
 
-      {/* Pagination */}
-      {showPagination && (
-        <Pagination
-          data={data}
-          itemsPerPage={itemsPerPage}
-          onPageChange={handlePageChange}
-        />
-      )}
-
-      {resultsText && !showPagination && (
+      {resultsText && (
         <div className="mt-4 text-sm text-gray-500">{resultsText}</div>
       )}
     </div>

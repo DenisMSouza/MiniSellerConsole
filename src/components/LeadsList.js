@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import DataTable from "./DataTable";
+import ResponsiveDataView from "./ResponsiveDataView";
 import Filter from "./Filter";
 import LeadDetailsDrawer from "./LeadDetailsDrawer";
 import LoadingSpinner from "./LoadingSpinner";
@@ -307,7 +307,7 @@ const LeadsList = () => {
 
   return (
     <>
-      <DataTable
+      <ResponsiveDataView
         data={sortedLeads}
         columns={columns}
         onRowClick={handleLeadClick}

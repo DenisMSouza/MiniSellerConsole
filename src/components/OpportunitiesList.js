@@ -1,5 +1,5 @@
 import React from "react";
-import DataTable from "./DataTable";
+import ResponsiveDataView from "./ResponsiveDataView";
 import LoadingSpinner from "./LoadingSpinner";
 import { useOpportunitiesData } from "../hooks/useOpportunitiesData";
 import { useSimulationConfig } from "../contexts/SimulationConfigContext";
@@ -191,7 +191,7 @@ const OpportunitiesList = () => {
   );
 
   return (
-    <DataTable
+    <ResponsiveDataView
       data={opportunities}
       columns={columns}
       onRowClick={handleOpportunityClick}
