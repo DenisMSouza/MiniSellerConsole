@@ -15,14 +15,6 @@ const LeadsList = () => {
   const [selectedLead, setSelectedLead] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Shared header component
-  const PageHeader = () => (
-    <div className="mb-6">
-      <h1 className="text-3xl font-bold text-gray-900 mb-2">Leads Console</h1>
-      <p className="text-gray-600">Manage and triage your leads</p>
-    </div>
-  );
-
   // Get simulation config from context
   const { config } = useSimulationConfig();
 
@@ -47,18 +39,15 @@ const LeadsList = () => {
   // Handle loading and error states
   if (loading) {
     return (
-      <div className="p-4 sm:p-6 lg:p-8">
-        <PageHeader />
-        <div className="bg-white shadow-sm rounded-lg overflow-hidden">
-          <div className="p-12 text-center">
-            <LoadingSpinner size="lg" className="mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
-              Loading leads...
-            </h3>
-            <p className="text-gray-500">
-              Please wait while we fetch your leads data.
-            </p>
-          </div>
+      <div className="bg-white shadow-sm rounded-lg overflow-hidden">
+        <div className="p-12 text-center">
+          <LoadingSpinner size="lg" className="mb-4" />
+          <h3 className="text-lg font-medium text-gray-900 mb-2">
+            Loading leads...
+          </h3>
+          <p className="text-gray-500">
+            Please wait while we fetch your leads data.
+          </p>
         </div>
       </div>
     );
@@ -66,49 +55,46 @@ const LeadsList = () => {
 
   if (error) {
     return (
-      <div className="p-4 sm:p-6 lg:p-8">
-        <PageHeader />
-        <div className="bg-white shadow-sm rounded-lg overflow-hidden">
-          <div className="p-12 text-center">
-            <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-4">
-              <svg
-                className="h-8 w-8 text-red-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 19.5c-.77.833.192 2.5 1.732 2.5z"
-                />
-              </svg>
-            </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
-              Failed to load leads
-            </h3>
-            <p className="text-gray-500 mb-6">{error}</p>
-            <button
-              onClick={refreshData}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      <div className="bg-white shadow-sm rounded-lg overflow-hidden">
+        <div className="p-12 text-center">
+          <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-4">
+            <svg
+              className="h-8 w-8 text-red-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <svg
-                className="h-4 w-4 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                />
-              </svg>
-              Try Again
-            </button>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 19.5c-.77.833.192 2.5 1.732 2.5z"
+              />
+            </svg>
           </div>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">
+            Failed to load leads
+          </h3>
+          <p className="text-gray-500 mb-6">{error}</p>
+          <button
+            onClick={refreshData}
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            <svg
+              className="h-4 w-4 mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              />
+            </svg>
+            Try Again
+          </button>
         </div>
       </div>
     );
@@ -307,21 +293,18 @@ const LeadsList = () => {
 
   return (
     <>
-      <div className="p-4 sm:p-6 lg:p-8">
-        <PageHeader />
-        <ResponsiveDataView
-          data={sortedLeads}
-          columns={columns}
-          onRowClick={handleLeadClick}
-          title=""
-          subtitle=""
-          filterComponent={filterComponent}
-          resultsText={resultsText}
-          emptyMessage="No leads found"
-          emptyIcon={leadsEmptyIcon}
-          emptyAction={leadsEmptyAction}
-        />
-      </div>
+      <ResponsiveDataView
+        data={sortedLeads}
+        columns={columns}
+        onRowClick={handleLeadClick}
+        title=""
+        subtitle=""
+        filterComponent={filterComponent}
+        resultsText={resultsText}
+        emptyMessage="No leads found"
+        emptyIcon={leadsEmptyIcon}
+        emptyAction={leadsEmptyAction}
+      />
 
       <LeadDetailsDrawer
         lead={selectedLead}
