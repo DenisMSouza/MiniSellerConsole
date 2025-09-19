@@ -7,13 +7,10 @@ const ResponsiveDataView = ({
   data,
   columns,
   onRowClick,
-  title,
-  subtitle,
   filterComponent,
   resultsText,
   emptyMessage = "No data available",
   emptyIcon,
-  emptyAction,
   itemsPerPage = 10,
   showPagination = true,
 }) => {
@@ -58,7 +55,6 @@ const ResponsiveDataView = ({
     onRowClick,
     emptyMessage,
     emptyIcon,
-    emptyAction,
   };
 
   if (isMobile) {
@@ -99,8 +95,6 @@ const ResponsiveDataView = ({
       <DataTable
         {...commonProps}
         data={paginatedData}
-        title=""
-        subtitle=""
         filterComponent={null}
         resultsText=""
         itemsPerPage={itemsPerPage}

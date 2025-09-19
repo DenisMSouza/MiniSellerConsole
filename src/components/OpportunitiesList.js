@@ -133,7 +133,7 @@ const OpportunitiesList = () => {
     },
   ];
 
-  const resultsText = `Showing ${opportunities.length} opportunities`;
+  const resultsText = "";
 
   // Custom icon for opportunities empty state
   const opportunitiesEmptyIcon = (
@@ -177,8 +177,6 @@ const OpportunitiesList = () => {
       data={opportunities}
       columns={columns}
       onRowClick={handleOpportunityClick}
-      title=""
-      subtitle=""
       resultsText={resultsText}
       emptyMessage="No opportunities found"
       emptyIcon={opportunitiesEmptyIcon}

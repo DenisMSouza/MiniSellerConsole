@@ -4,13 +4,10 @@ const DataTable = ({
   data,
   columns,
   onRowClick,
-  title,
-  subtitle,
   filterComponent,
   resultsText,
   emptyMessage = "No data available",
   emptyIcon,
-  emptyAction,
 }) => {
   // Use data directly since pagination is now handled by parent
   const displayData = data || [];
@@ -18,11 +15,6 @@ const DataTable = ({
   if (!data || data.length === 0) {
     return (
       <div className="p-4 sm:p-6 lg:p-8">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">{title}</h1>
-          <p className="text-gray-600">{subtitle}</p>
-        </div>
-
         {filterComponent}
 
         <div className="bg-white shadow-sm rounded-lg overflow-hidden">
@@ -51,15 +43,10 @@ const DataTable = ({
               {emptyMessage}
             </h3>
             <p className="text-gray-500 mb-6">
-              {title === "Leads Console"
-                ? "No leads found. Try adjusting your search or filters, or add new leads to get started."
-                : "No opportunities found. Create your first opportunity to start tracking your sales pipeline."}
+              {emptyMessage === "No leads found"
+                ? "Try adjusting your search or filters."
+                : "Create your first opportunity to start tracking your sales pipeline."}
             </p>
-
-            {/* Action Button */}
-            {emptyAction && (
-              <div className="flex justify-center">{emptyAction}</div>
-            )}
           </div>
         </div>
       </div>
@@ -68,11 +55,6 @@ const DataTable = ({
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">{title}</h1>
-        <p className="text-gray-600">{subtitle}</p>
-      </div>
-
       {filterComponent}
 
       <div className="bg-white shadow-sm rounded-lg overflow-hidden">

@@ -237,22 +237,18 @@ const LeadsList = () => {
     />
   );
 
-  const resultsText = (
-    <div className="flex items-center justify-between">
-      <span>
-        Showing {sortedLeads.length} of {leads.length} leads
-        {(searchTerm || statusFilter || sortBy) && (
-          <span className="ml-2 text-indigo-600">
-            ({searchTerm && `filtered by "${searchTerm}"`}
-            {searchTerm && statusFilter && " and "}
-            {statusFilter && `status: ${statusFilter}`}
-            {(searchTerm || statusFilter) && sortBy && " and "}
-            {sortBy && `sorted by score (desc)`})
-          </span>
-        )}
-      </span>
-    </div>
-  );
+  const resultsText =
+    searchTerm || statusFilter !== "" || sortBy ? (
+      <div className="text-sm text-gray-500">
+        Filtered by: {searchTerm && `"${searchTerm}"`}
+        {searchTerm && statusFilter !== "" && " • "}
+        {statusFilter !== "" && `Status: ${statusFilter}`}
+        {(searchTerm || statusFilter !== "") && sortBy && " • "}
+        {sortBy && "Sorted: Score (Desc)"}
+      </div>
+    ) : (
+      ""
+    );
 
   // Custom icon for leads empty state
   const leadsEmptyIcon = (
@@ -271,39 +267,16 @@ const LeadsList = () => {
     </svg>
   );
 
-  // Action button for leads empty state
-  const leadsEmptyAction = (
-    <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-      <svg
-        className="h-4 w-4 mr-2"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-        />
-      </svg>
-      Add Lead
-    </button>
-  );
-
   return (
     <>
       <ResponsiveDataView
         data={sortedLeads}
         columns={columns}
         onRowClick={handleLeadClick}
-        title=""
-        subtitle=""
         filterComponent={filterComponent}
         resultsText={resultsText}
         emptyMessage="No leads found"
         emptyIcon={leadsEmptyIcon}
-        emptyAction={leadsEmptyAction}
       />
 
       <LeadDetailsDrawer
