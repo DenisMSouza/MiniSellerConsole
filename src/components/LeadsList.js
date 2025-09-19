@@ -307,18 +307,21 @@ const LeadsList = () => {
 
   return (
     <>
-      <ResponsiveDataView
-        data={sortedLeads}
-        columns={columns}
-        onRowClick={handleLeadClick}
-        title="Leads Console"
-        subtitle="Manage and triage your leads"
-        filterComponent={filterComponent}
-        resultsText={resultsText}
-        emptyMessage="No leads found"
-        emptyIcon={leadsEmptyIcon}
-        emptyAction={leadsEmptyAction}
-      />
+      <div className="p-4 sm:p-6 lg:p-8">
+        <PageHeader />
+        <ResponsiveDataView
+          data={sortedLeads}
+          columns={columns}
+          onRowClick={handleLeadClick}
+          title=""
+          subtitle=""
+          filterComponent={filterComponent}
+          resultsText={resultsText}
+          emptyMessage="No leads found"
+          emptyIcon={leadsEmptyIcon}
+          emptyAction={leadsEmptyAction}
+        />
+      </div>
 
       <LeadDetailsDrawer
         lead={selectedLead}

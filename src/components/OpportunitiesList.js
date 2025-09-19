@@ -191,17 +191,20 @@ const OpportunitiesList = () => {
   );
 
   return (
-    <ResponsiveDataView
-      data={opportunities}
-      columns={columns}
-      onRowClick={handleOpportunityClick}
-      title="Opportunities Console"
-      subtitle="Manage your sales pipeline and opportunities"
-      resultsText={resultsText}
-      emptyMessage="No opportunities found"
-      emptyIcon={opportunitiesEmptyIcon}
-      emptyAction={opportunitiesEmptyAction}
-    />
+    <div className="p-4 sm:p-6 lg:p-8">
+      <PageHeader />
+      <ResponsiveDataView
+        data={opportunities}
+        columns={columns}
+        onRowClick={handleOpportunityClick}
+        title=""
+        subtitle=""
+        resultsText={resultsText}
+        emptyMessage="No opportunities found"
+        emptyIcon={opportunitiesEmptyIcon}
+        emptyAction={opportunitiesEmptyAction}
+      />
+    </div>
   );
 };
 

@@ -63,19 +63,7 @@ const ResponsiveDataView = ({
 
   if (isMobile) {
     return (
-      <div className="p-4 sm:p-6">
-        {/* Header */}
-        {(title || subtitle) && (
-          <div className="mb-6">
-            {title && (
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
-                {title}
-              </h1>
-            )}
-            {subtitle && <p className="text-gray-600">{subtitle}</p>}
-          </div>
-        )}
-
+      <>
         {/* Filter Component */}
         {filterComponent && <div className="mb-6">{filterComponent}</div>}
 
@@ -92,23 +80,13 @@ const ResponsiveDataView = ({
             itemsPerPage={itemsPerPage}
           />
         )}
-      </div>
+      </>
     );
   }
 
   // Desktop table view
   return (
-    <div className="p-4 sm:p-6 lg:p-8">
-      {/* Header */}
-      {(title || subtitle) && (
-        <div className="mb-6">
-          {title && (
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">{title}</h1>
-          )}
-          {subtitle && <p className="text-gray-600">{subtitle}</p>}
-        </div>
-      )}
-
+    <>
       {/* Filter Component */}
       {filterComponent && <div className="mb-6">{filterComponent}</div>}
 
@@ -139,7 +117,7 @@ const ResponsiveDataView = ({
           itemsPerPage={itemsPerPage}
         />
       )}
-    </div>
+    </>
   );
 };
 
