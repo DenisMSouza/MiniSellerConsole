@@ -10,6 +10,18 @@ import {
 } from "../utils/opportunitiesUtils";
 
 const OpportunitiesList = () => {
+  // Shared header component
+  const PageHeader = () => (
+    <div className="mb-6">
+      <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        Opportunities Console
+      </h1>
+      <p className="text-gray-600">
+        Manage your sales pipeline and opportunities
+      </p>
+    </div>
+  );
+
   // Get simulation config from context
   const { config } = useSimulationConfig();
 
@@ -31,15 +43,8 @@ const OpportunitiesList = () => {
   // Handle loading and error states
   if (loading) {
     return (
-      <div className="p-6">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Opportunities Console
-          </h1>
-          <p className="text-gray-600">
-            Manage your sales pipeline and opportunities
-          </p>
-        </div>
+      <div className="p-4 sm:p-6 lg:p-8">
+        <PageHeader />
         <div className="bg-white shadow-sm rounded-lg overflow-hidden">
           <div className="p-12 text-center">
             <LoadingSpinner size="lg" className="mb-4" />
@@ -57,15 +62,8 @@ const OpportunitiesList = () => {
 
   if (error) {
     return (
-      <div className="p-6">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Opportunities Console
-          </h1>
-          <p className="text-gray-600">
-            Manage your sales pipeline and opportunities
-          </p>
-        </div>
+      <div className="p-4 sm:p-6 lg:p-8">
+        <PageHeader />
         <div className="bg-white shadow-sm rounded-lg overflow-hidden">
           <div className="p-12 text-center">
             <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-4">
